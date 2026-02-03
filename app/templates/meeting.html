@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+  <section class="card">
+    <h2>{{ meeting.title }}</h2>
+    <p><strong>Date:</strong> {{ meeting.meeting_date }} ({{ meeting.timezone }})</p>
+    <h3>Summary</h3>
+    <p>{{ meeting.summary }}</p>
+    <div class="split">
+      <div>
+        <h3>Decisions</h3>
+        <ul>
+          {% for decision in decisions %}
+            <li>{{ decision }}</li>
+          {% else %}
+            <li>No decisions captured.</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div>
+        <h3>Risks / Blockers</h3>
+        <ul>
+          {% for risk in risks %}
+            <li>{{ risk }}</li>
+          {% else %}
+            <li>No risks captured.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>Proposed Tasks</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Due Date</th>
+          <th>Priority</th>
+          <th>Confidence</th>
+          <th>Due Date Confidence</th>
+          <th>Source Quote</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for task in tasks %}
+          <tr>
+            <td>{{ task.title }}</td>
+            <td>{{ task.due_date or '—' }}</td>
+            <td>{{ task.priority }}</td>
+            <td>{{ '%.2f'|format(task.confidence) }}</td>
+            <td>{{ '%.2f'|format(task.due_date_confidence) }}</td>
+            <td class="quote">{{ task.source_quote }}</td>
+          </tr>
+        {% else %}
+          <tr>
+            <td colspan="6">No tasks extracted.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+{% endblock %}
