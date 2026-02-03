@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+  <section class="card">
+    <h2>Agenda for {{ selected_date }}</h2>
+    <form method="get" action="/agenda" class="date-picker">
+      <label>
+        Jump to date
+        <input type="date" name="date" value="{{ selected_date }}" />
+      </label>
+      <button type="submit">Go</button>
+    </form>
+  </section>
+
+  {% macro task_list(items) -%}
+    <ul>
+      {% for task in items %}
+        <li>
+          <strong>{{ task.title }}</strong>
+          {% if task.due_date %}<span class="muted">(due {{ task.due_date }})</span>{% endif %}
+        </li>
+      {% else %}
+        <li>No tasks.</li>
+      {% endfor %}
+    </ul>
+  {%- endmacro %}
+
+  <section class="card">
+    <h3>Due Today</h3>
+    {{ task_list(due_today) }}
+  </section>
+
+  <section class="card">
+    <h3>Overdue</h3>
+    {{ task_list(overdue) }}
+  </section>
+
+  <section class="card">
+    <h3>Next 7 Days</h3>
+    {{ task_list(next_7_days) }}
+  </section>
+
+  <section class="card">
+    <h3>No Due Date</h3>
+    {{ task_list(no_due_date) }}
+  </section>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+  <section class="card">
+    <h2>Process a Meeting</h2>
+    {% if error %}
+      <div class="error">{{ error }}</div>
+    {% endif %}
+    <form method="post" action="/meetings/process" class="form-grid">
+      <label>
+        Title
+        <input type="text" name="title" value="{{ form.title or '' }}" required />
+      </label>
+      <label>
+        Meeting date
+        <input type="date" name="meeting_date" value="{{ form.meeting_date or today }}" required />
+      </label>
+      <label>
+        Timezone
+        <input type="text" name="timezone" value="{{ form.timezone or 'America/Los_Angeles' }}" required />
+      </label>
+      <label class="full">
+        Gemini notes (required)
+        <textarea name="gemini_notes" rows="8" required>{{ form.gemini_notes or '' }}</textarea>
+      </label>
+      <label class="full">
+        Transcript (optional)
+        <textarea name="transcript" rows="6">{{ form.transcript or '' }}</textarea>
+      </label>
+      <button type="submit">Process</button>
+    </form>
+  </section>
+{% endblock %}
